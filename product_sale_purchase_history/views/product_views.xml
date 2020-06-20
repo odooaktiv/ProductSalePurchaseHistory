@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_sale_orders_line" model="ir.actions.act_window">
+        <field name="name">Sales Orders Lines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id', '=', active_id)]</field>
+    </record>
+
+    <record id="action_purchase_orders_line" model="ir.actions.act_window">
+        <field name="name">Purchase Orders Lines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id', '=', active_id)]</field>
+    </record>
+
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div/button[@name='toggle_active']" position="before">
+                <button string="Sale History" type="action" class="oe_stat_button" name="%(product_sale_purchase_history.action_sale_orders_line)d" icon="fa-history" attrs="{'invisible': [('sale_ok', '=', False)]}"/>
+                <button string="Purchase History" type="action"
+                    name="%(product_sale_purchase_history.action_purchase_orders_line)d"
+                    class="oe_stat_button" icon="fa-history" attrs="{'invisible': [('purchase_ok', '=', False)]}">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
